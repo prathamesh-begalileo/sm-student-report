@@ -75,7 +75,7 @@
       overflow: hidden;
       /* background-color: #fff; */
       /* width: 185px; */
-      height: 420px;
+      height: 460px;
     }
 
     .sticky {
@@ -98,6 +98,15 @@
       padding: 0px;
     }
 
+    #nav-tab > button:hover {
+      background-color: #e9edc9;
+    }
+
+    .nav-link {
+      padding: 0.5rem;
+      padding-left: 1rem;
+    }
+
     @media only screen and (max-width: 768px) {
       .nav-link {
         padding: 0;
@@ -106,6 +115,7 @@
         background-color: transparent !important;
         padding: 2px;
         border: 2px solid #674bbd !important;
+        border-radius: 50%;
       }
       .dataTables_wrapper {
         overflow-x: scroll;
@@ -149,17 +159,16 @@
       <button id="search-btn" class="btn btn-primary">Search</button>
     </div>
     <div
-      class="border mt-3 mx-0 mx-lg-3 d-none flex-column flex-lg-row"
+      class="mt-3 mx-0 mx-lg-2 d-none flex-column flex-lg-row"
       id="report"
+      style="column-gap: 5px"
     >
       <div
-        class="justify-content-around d-lg-none my-2 bg-warning py-2 nav nav-tabs sticky"
+        class="justify-content-around d-lg-none my-2 py-2 nav nav-tabs sticky"
         role="tablist"
+        style="background-color: khaki"
       >
-        <img
-          src="./resume.png"
-          alt="Details"
-          height="30px"
+        <div
           class="nav-link active"
           id="nav-details-tab"
           data-toggle="tab"
@@ -168,12 +177,10 @@
           aria-controls="nav-details"
           aria-selected="true"
           title="Details"
-        />
-
-        <img
-          src="./seo-report.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./resume.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-class-reports-tab"
           data-toggle="tab"
@@ -182,12 +189,11 @@
           aria-controls="nav-class-reports"
           aria-selected="false"
           title="Class Report"
-        />
+        >
+          <img src="./seo-report.png" alt="Details" height="30px" />
+        </div>
 
-        <img
-          src="./homework.png"
-          alt="Details"
-          height="30px"
+        <div
           class="nav-link"
           id="nav-homework-tab"
           data-toggle="tab"
@@ -196,12 +202,10 @@
           aria-controls="nav-homework"
           aria-selected="false"
           title="Homework Details"
-        />
-
-        <img
-          src="./videoconference.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./homework.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-meetings-tab"
           data-toggle="tab"
@@ -210,12 +214,10 @@
           aria-controls="nav-meetings"
           aria-selected="true"
           title="Meetings"
-        />
-
-        <img
-          src="./test.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./videoconference.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-tests-tab"
           data-toggle="tab"
@@ -224,12 +226,10 @@
           aria-controls="nav-tests"
           aria-selected="false"
           title="Tests"
-        />
-
-        <img
-          src="./subscription-model.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./test.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-subscriptions-tab"
           data-toggle="tab"
@@ -238,12 +238,10 @@
           aria-controls="nav-subscriptions"
           aria-selected="false"
           title="Subscription"
-        />
-
-        <img
-          src="./teacher.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./subscription-model.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-teachers-tab"
           data-toggle="tab"
@@ -252,12 +250,10 @@
           aria-controls="nav-teachers"
           aria-selected="true"
           title="Teachers"
-        />
-
-        <img
-          src="./query.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./teacher.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-escalation-tab"
           data-toggle="tab"
@@ -266,12 +262,10 @@
           aria-controls="nav-escalations"
           aria-selected="false"
           title="Escalations"
-        />
-
-        <img
-          src="./download.png"
-          alt="Details"
-          height="30px"
+        >
+          <img src="./query.png" alt="Details" height="30px" />
+        </div>
+        <div
           class="nav-link"
           id="nav-download-report-tab"
           data-toggle="tab"
@@ -280,12 +274,14 @@
           aria-controls="nav-report"
           aria-selected="false"
           title="Download Report"
-        />
+        >
+          <img src="./download.png" alt="Details" height="30px" />
+        </div>
       </div>
       <nav
         id="navbar"
         class="d-none d-lg-flex col-2 px-0"
-        style="border: 2px solid yellowgreen"
+        style="border: 2px solid yellowgreen; background-color: khaki"
       >
         <div
           class="nav nav-tabs d-md-flex flex-md-column w-100"
@@ -302,7 +298,7 @@
             aria-controls="nav-details"
             aria-selected="true"
           >
-            <img src="./resume.png" alt="Details" height="20px" />
+            <img src="./resume.png" alt="Details" height="30px" />
             <span>Details</span>
           </button>
           <button
@@ -315,7 +311,7 @@
             aria-controls="nav-class-reports"
             aria-selected="false"
           >
-            <img src="./seo-report.png" alt="Details" height="20px" />
+            <img src="./seo-report.png" alt="Details" height="30px" />
             <span> Class Reports </span>
           </button>
           <button
@@ -328,7 +324,7 @@
             aria-controls="nav-homework"
             aria-selected="false"
           >
-            <img src="./homework.png" alt="Details" height="20px" />
+            <img src="./homework.png" alt="Details" height="30px" />
             <span> Homework Details</span>
           </button>
           <button
@@ -341,7 +337,7 @@
             aria-controls="nav-meetings"
             aria-selected="true"
           >
-            <img src="./videoconference.png" alt="Details" height="20px" />
+            <img src="./videoconference.png" alt="Details" height="30px" />
             <span> Meetings </span>
           </button>
           <button
@@ -354,7 +350,7 @@
             aria-controls="nav-tests"
             aria-selected="false"
           >
-            <img src="./test.png" alt="Details" height="20px" />
+            <img src="./test.png" alt="Details" height="30px" />
             <span> Tests </span>
           </button>
           <button
@@ -367,7 +363,7 @@
             aria-controls="nav-subscriptions"
             aria-selected="false"
           >
-            <img src="./subscription-model.png" alt="Details" height="20px" />
+            <img src="./subscription-model.png" alt="Details" height="30px" />
             <span> Subscriptions </span>
           </button>
           <button
@@ -380,7 +376,7 @@
             aria-controls="nav-teachers"
             aria-selected="true"
           >
-            <img src="./teacher.png" alt="Details" height="20px" />
+            <img src="./teacher.png" alt="Details" height="30px" />
             <span> Teachers </span>
           </button>
           <button
@@ -393,7 +389,7 @@
             aria-controls="nav-escalations"
             aria-selected="false"
           >
-            <img src="./query.png" alt="Details" height="20px" />
+            <img src="./query.png" alt="Details" height="30px" />
             <span> Escalations </span>
           </button>
           <button
@@ -406,13 +402,13 @@
             aria-controls="nav-report"
             aria-selected="false"
           >
-            <img src="./download.png" alt="Details" height="20px" />
+            <img src="./download.png" alt="Details" height="30px" />
             <span> Download Report </span>
           </button>
         </div>
       </nav>
       <div
-        class="tab-content col-12 col-lg-10 px-0 border border-info"
+        class="tab-content col-12 col-lg-10 px-0 border border-info mb-4"
         id="nav-tabContent"
       >
         <div
@@ -665,7 +661,7 @@
                 <tr>
                   <th>Class Date</th>
                   <th>Learning Outcome</th>
-                  <th>Learning Outcome</th>
+                  <th>Student Coding Link</th>
                 </tr>
               </thead>
               <tbody>
@@ -1123,40 +1119,50 @@
           <div class="col-11 col-lg-10 my-2 mx-auto px-0">
             <h3 class="text-center my-2">Download Report</h3>
 
-            <label for="reportmonth" class="font-weight-bold"
-              >Select month for report :
-            </label>
-            <input type="month" id="reportmonth" name="reportmonth" />
-
-            <button class="btn btn-info" id="search-report">
-              Search Report
-            </button>
+            <div class="d-flex my-3">
+              <label for="reportmonth" class="font-weight-bold mr-2"
+                >Select month for report :
+              </label>
+              <input
+                type="month"
+                id="reportmonth"
+                name="reportmonth"
+                placeholder="Select Month"
+              />
+              <button
+                class="btn btn-info"
+                id="search-report"
+                style="position: absolute; right: 0px"
+              >
+                Search Report
+              </button>
+            </div>
           </div>
-          <div class="printableArea">
+          <div class="printableArea my-3">
             <div class="col-11 col-lg-10 m-auto px-0 d-none report-div">
               <h3 class="text-center my-2">Student Details</h3>
               <div class="d-flex flex-wrap my-2 mx-3">
-                <div class="d-flex col-6">
+                <div class="d-flex col-12 col-md-6">
                   <p class="font-weight-bold mr-2">Student Name :</p>
                   <p class="">Lisha Kahane</p>
                 </div>
-                <div class="d-flex col-6">
+                <div class="d-flex col-12 col-md-6">
                   <p class="font-weight-bold mr-2">Current Grade :</p>
                   <p class="">3<sup>rd</sup></p>
                 </div>
-                <div class="d-flex col-6">
+                <div class="d-flex col-12 col-md-6">
                   <p class="font-weight-bold mr-2">Curriculum :</p>
                   <p class="">CBSE</p>
                 </div>
-                <div class="d-flex col-6">
+                <div class="d-flex col-12 col-md-6">
                   <p class="font-weight-bold mr-2">Parent Name :</p>
                   <p class="">Leo Kahane</p>
                 </div>
-                <div class="d-flex col-6">
+                <div class="d-flex col-12 col-md-6">
                   <p class="font-weight-bold mr-2">Parent Email :</p>
                   <p class="">begalileo3@ucla.edu</p>
                 </div>
-                <div class="d-flex col-6">
+                <div class="d-flex col-12 col-md-6">
                   <p class="font-weight-bold mr-2">Teacher Name :</p>
                   <p class="">Jock Baldery</p>
                 </div>
@@ -1505,9 +1511,6 @@
 
     let searchBtn = document.getElementById("search-btn");
 
-    // bigCities = data.filter(function (e) {
-    //         return e.department.toLowerCase() == department.toLowerCase();
-    //       });
     let student;
 
     searchBtn.addEventListener("click", function () {
@@ -1588,9 +1591,12 @@
       var printContent = document.querySelector(`.${areaID}`).innerHTML;
       console.log(printContent);
       var originalContent = document.body.innerHTML;
+      var originalTitle = document.title;
       document.body.innerHTML = printContent;
+      document.title = document.getElementById("detail-report-head").innerText;
       window.print();
       document.body.innerHTML = originalContent;
+      document.title = originalTitle;
     }
 
     const month = [
@@ -1610,12 +1616,17 @@
 
     let monthBtn = document.getElementById("search-report");
     monthBtn.addEventListener("click", function () {
+      console.log("month btn");
       let dt = new Date(document.getElementById("reportmonth").value);
 
       document.getElementById("detail-report-head").innerText = `Report for ${
-        month[dt.getMonth() + 1]
+        month[dt.getMonth()]
       } ${dt.getFullYear()}`;
       document.querySelector(".report-div").classList.remove("d-none");
     });
+
+    document.getElementById("nav-report").onload = (function () {
+      console.log("nav report load");
+    })();
   </script>
 </html>
