@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+      integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/v/ju/dt-1.11.4/datatables.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/v/ju/dt-1.11.4/datatables.min.js"
+    ></script>
+  </head>
+  <style>
+    .table1 {
+      background-color: antiquewhite;
+    }
+    .table2 {
+      background-color: rgb(192, 230, 169);
+    }
+    .table3 {
+      background-color: rgb(232, 209, 216);
+    }
+    .table4 {
+      background-color: rgb(220, 200, 238);
+    }
+
+    .nav-link.active {
+      background-color: #674bbd !important;
+      font-weight: 600;
+      color: #fff !important;
+    }
+
+    h3 {
+      color: #1a1a99;
+    }
+
+    h4 {
+      color: maroon;
+    }
+
+    #navbar {
+      overflow: hidden;
+      /* background-color: #fff; */
+      /* width: 185px; */
+      height: 420px;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      /* width: 100%; */
+    }
+
+    /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+    .sticky + .content {
+      padding-top: 60px;
+    }
+
+    button {
+      text-align: start;
+    }
+
+    .dataTables_wrapper .ui-toolbar {
+      padding: 0px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      .nav-link {
+        padding: 0;
+      }
+      .nav-link.active {
+        background-color: transparent !important;
+        padding: 2px;
+        border: 2px solid #674bbd !important;
+      }
+      .dataTables_wrapper {
+        overflow-x: scroll;
+      }
+    }
+
+    #detail-report-head {
+      color: darkgreen;
+    }
+
+    /* @media Print { */
+    .report-div {
+      border: 2px solid red;
+      background-color: rgb(215, 223, 230);
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    /* } */
+  </style>
+  <body>
+    <div
+      class="border border-2 border-danger mt-3 mx-auto p-2 container d-flex flex-column flex-md-row justify-content-between"
+      style="row-gap: 10px"
+    >
+      <div class="d-flex align-items-center">
+        <p class="mr-1 mb-0 px-0 font-weight-bold col-4">Student Name</p>
+        <select name="student_name" id="studentsName" class="col-6">
+          <option value="none" selected disabled hidden>
+            Choose Student Name
+          </option>
+        </select>
+      </div>
+      <div class="d-flex align-items-center">
+        <p class="mr-1 mb-0 px-0 font-weight-bold col-4">Parent Email</p>
+        <select name="parent_email" id="parentEmail" class="col-6">
+          <option value="none" selected disabled hidden>
+            Choose Student Name
+          </option>
+        </select>
+      </div>
+      <button id="search-btn" class="btn btn-primary">Search</button>
+    </div>
+    <div
+      class="border mt-3 mx-0 mx-lg-3 d-none flex-column flex-lg-row"
+      id="report"
+    >
+      <div
+        class="justify-content-around d-lg-none my-2 bg-warning py-2 nav nav-tabs sticky"
+        role="tablist"
+      >
+        <img
+          src="./resume.png"
+          alt="Details"
+          height="30px"
+          class="nav-link active"
+          id="nav-details-tab"
+          data-toggle="tab"
+          data-target="#nav-details"
+          role="tab"
+          aria-controls="nav-details"
+          aria-selected="true"
+          title="Details"
+        />
+
+        <img
+          src="./seo-report.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-class-reports-tab"
+          data-toggle="tab"
+          data-target="#nav-class-reports"
+          role="tab"
+          aria-controls="nav-class-reports"
+          aria-selected="false"
+          title="Class Report"
+        />
+
+        <img
+          src="./homework.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-homework-tab"
+          data-toggle="tab"
+          data-target="#nav-homework"
+          role="tab"
+          aria-controls="nav-homework"
+          aria-selected="false"
+          title="Homework Details"
+        />
+
+        <img
+          src="./videoconference.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-meetings-tab"
+          data-toggle="tab"
+          data-target="#nav-meetings"
+          role="tab"
+          aria-controls="nav-meetings"
+          aria-selected="true"
+          title="Meetings"
+        />
+
+        <img
+          src="./test.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-tests-tab"
+          data-toggle="tab"
+          data-target="#nav-tests"
+          role="tab"
+          aria-controls="nav-tests"
+          aria-selected="false"
+          title="Tests"
+        />
+
+        <img
+          src="./subscription-model.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-subscriptions-tab"
+          data-toggle="tab"
+          data-target="#nav-subscriptions"
+          role="tab"
+          aria-controls="nav-subscriptions"
+          aria-selected="false"
+          title="Subscription"
+        />
+
+        <img
+          src="./teacher.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-teachers-tab"
+          data-toggle="tab"
+          data-target="#nav-teachers"
+          role="tab"
+          aria-controls="nav-teachers"
+          aria-selected="true"
+          title="Teachers"
+        />
+
+        <img
+          src="./query.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-escalation-tab"
+          data-toggle="tab"
+          data-target="#nav-escalations"
+          role="tab"
+          aria-controls="nav-escalations"
+          aria-selected="false"
+          title="Escalations"
+        />
+
+        <img
+          src="./download.png"
+          alt="Details"
+          height="30px"
+          class="nav-link"
+          id="nav-download-report-tab"
+          data-toggle="tab"
+          data-target="#nav-report"
+          role="tab"
+          aria-controls="nav-report"
+          aria-selected="false"
+          title="Download Report"
+        />
+      </div>
+      <nav
+        id="navbar"
+        class="d-none d-lg-flex col-2 px-0"
+        style="border: 2px solid yellowgreen"
+      >
+        <div
+          class="nav nav-tabs d-md-flex flex-md-column w-100"
+          id="nav-tab"
+          role="tablist"
+        >
+          <button
+            class="nav-link active"
+            id="nav-details-tab"
+            data-toggle="tab"
+            data-target="#nav-details"
+            type="button"
+            role="tab"
+            aria-controls="nav-details"
+            aria-selected="true"
+          >
+            <img src="./resume.png" alt="Details" height="20px" />
+            <span>Details</span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-class-reports-tab"
+            data-toggle="tab"
+            data-target="#nav-class-reports"
+            type="button"
+            role="tab"
+            aria-controls="nav-class-reports"
+            aria-selected="false"
+          >
+            <img src="./seo-report.png" alt="Details" height="20px" />
+            <span> Class Reports </span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-homework-tab"
+            data-toggle="tab"
+            data-target="#nav-homework"
+            type="button"
+            role="tab"
+            aria-controls="nav-homework"
+            aria-selected="false"
+          >
+            <img src="./homework.png" alt="Details" height="20px" />
+            <span> Homework Details</span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-meetings-tab"
+            data-toggle="tab"
+            data-target="#nav-meetings"
+            type="button"
+            role="tab"
+            aria-controls="nav-meetings"
+            aria-selected="true"
+          >
+            <img src="./videoconference.png" alt="Details" height="20px" />
+            <span> Meetings </span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-tests-tab"
+            data-toggle="tab"
+            data-target="#nav-tests"
+            type="button"
+            role="tab"
+            aria-controls="nav-tests"
+            aria-selected="false"
+          >
+            <img src="./test.png" alt="Details" height="20px" />
+            <span> Tests </span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-subscriptions-tab"
+            data-toggle="tab"
+            data-target="#nav-subscriptions"
+            type="button"
+            role="tab"
+            aria-controls="nav-subscriptions"
+            aria-selected="false"
+          >
+            <img src="./subscription-model.png" alt="Details" height="20px" />
+            <span> Subscriptions </span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-teachers-tab"
+            data-toggle="tab"
+            data-target="#nav-teachers"
+            type="button"
+            role="tab"
+            aria-controls="nav-teachers"
+            aria-selected="true"
+          >
+            <img src="./teacher.png" alt="Details" height="20px" />
+            <span> Teachers </span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-escalation-tab"
+            data-toggle="tab"
+            data-target="#nav-escalations"
+            type="button"
+            role="tab"
+            aria-controls="nav-escalations"
+            aria-selected="false"
+          >
+            <img src="./query.png" alt="Details" height="20px" />
+            <span> Escalations </span>
+          </button>
+          <button
+            class="nav-link"
+            id="nav-download-report-tab"
+            data-toggle="tab"
+            data-target="#nav-report"
+            type="button"
+            role="tab"
+            aria-controls="nav-report"
+            aria-selected="false"
+          >
+            <img src="./download.png" alt="Details" height="20px" />
+            <span> Download Report </span>
+          </button>
+        </div>
+      </nav>
+      <div
+        class="tab-content col-12 col-lg-10 px-0 border border-info"
+        id="nav-tabContent"
+      >
+        <div
+          class="tab-pane fade show active d-col col-12 col-md-10 mx-auto my-3"
+          id="nav-details"
+          role="tabpanel"
+          aria-labelledby="nav-details-tab"
+        >
+          <h3 class="text-center">Student Details</h3>
+
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Name :</p>
+            <p class="name"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Current Grade :</p>
+            <p class="grade"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Curriculum :</p>
+            <p class="curriculam"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Parent Name :</p>
+            <p class="parent-name"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Parent Email :</p>
+            <p class="parent-email"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Product Subscribed :</p>
+            <p class="product-subscribed"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Teacher Name :</p>
+            <p class="teacher-name"></p>
+          </div>
+          <div class="d-flex">
+            <p class="font-weight-bold mr-2">Subscription :</p>
+            <p class="subscription"></p>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade my-3"
+          id="nav-class-reports"
+          role="tabpanel"
+          aria-labelledby="nav-class-reports-tab"
+        >
+          <div class="col-10 mx-auto my-3">
+            <h3 class="text-center">Student Class Report</h3>
+            <div class="d-flex">
+              <p class="font-weight-bold mr-2">Student Name :</p>
+              <p class="name"></p>
+            </div>
+            <div class="d-flex">
+              <p class="font-weight-bold mr-2">Teacher Name :</p>
+              <p class="teacher-name"></p>
+            </div>
+          </div>
+          <div class="class-report-tables table1 px-3 py-2">
+            <h4 class="text-center my-2">
+              only math + coding with new curriculum
+            </h4>
+            <table id="example" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Class Date</th>
+                  <th>Concept Covered</th>
+                  <th>Topics Covered</th>
+                  <th>No. of Questions Practiced</th>
+                  <th>Incorrect Question Trail</th>
+                  <th>Coding topic</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>10</td>
+                  <td>$320,800</td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                  <td>30</td>
+                  <td>15</td>
+                  <td>$170,750</td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Ashton Cox</td>
+                  <td>Junior Technical Author</td>
+                  <td>25</td>
+                  <td>5</td>
+                  <td>$86,000</td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Cedric Kelly</td>
+                  <td>Senior Javascript Developer</td>
+                  <td>15</td>
+                  <td>5</td>
+                  <td>$433,060</td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Airi Satou</td>
+                  <td>Accountant</td>
+                  <td>17</td>
+                  <td>4</td>
+                  <td>$162,700</td>
+                </tr>
+                <tr>
+                  <td>2012-12-02</td>
+                  <td>Brielle Williamson</td>
+                  <td>Integration Specialist</td>
+                  <td>19</td>
+                  <td>5</td>
+                  <td>$372,000</td>
+                </tr>
+                <tr>
+                  <td>2012-08-06</td>
+                  <td>Herrod Chandler</td>
+                  <td>Sales Assistant</td>
+                  <td>26</td>
+                  <td>10</td>
+                  <td>$137,500</td>
+                </tr>
+                <tr>
+                  <td>2010-10-14</td>
+                  <td>Rhona Davidson</td>
+                  <td>Integration Specialist</td>
+                  <td>20</td>
+                  <td>5</td>
+                  <td>$327,900</td>
+                </tr>
+                <tr>
+                  <td>2009-09-15</td>
+                  <td>Colleen Hurst</td>
+                  <td>Javascript Developer</td>
+                  <td>15</td>
+                  <td>3</td>
+                  <td>$205,500</td>
+                </tr>
+                <tr>
+                  <td>2008-12-13</td>
+                  <td>Sonya Frost</td>
+                  <td>Software Engineer</td>
+                  <td>10</td>
+                  <td>2</td>
+                  <td>$103,600</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="class-report-tables table2 px-3 py-2">
+            <h4 class="text-center my-2">only math with new curriculum</h4>
+            <table id="example2" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Class Date</th>
+                  <th>Concept Covered</th>
+                  <th>Topics Covered</th>
+                  <th>No. of Questions Practiced</th>
+                  <th>Incorrect Question Trail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                  <td>30</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Ashton Cox</td>
+                  <td>Junior Technical Author</td>
+                  <td>25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Cedric Kelly</td>
+                  <td>Senior Javascript Developer</td>
+                  <td>15</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Airi Satou</td>
+                  <td>Accountant</td>
+                  <td>17</td>
+                  <td>4</td>
+                </tr>
+                <tr>
+                  <td>2012-12-02</td>
+                  <td>Brielle Williamson</td>
+                  <td>Integration Specialist</td>
+                  <td>19</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-08-06</td>
+                  <td>Herrod Chandler</td>
+                  <td>Sales Assistant</td>
+                  <td>26</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>2010-10-14</td>
+                  <td>Rhona Davidson</td>
+                  <td>Integration Specialist</td>
+                  <td>20</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2009-09-15</td>
+                  <td>Colleen Hurst</td>
+                  <td>Javascript Developer</td>
+                  <td>15</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>2008-12-13</td>
+                  <td>Sonya Frost</td>
+                  <td>Software Engineer</td>
+                  <td>10</td>
+                  <td>2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="class-report-tables table3 px-3 py-2">
+            <h4 class="text-center my-2">only coding with new curriculum</h4>
+            <table id="example3" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Class Date</th>
+                  <th>Learning Outcome</th>
+                  <th>Learning Outcome</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Ashton Cox</td>
+                  <td>Junior Technical Author</td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Cedric Kelly</td>
+                  <td>Senior Javascript Developer</td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Airi Satou</td>
+                  <td>Accountant</td>
+                </tr>
+                <tr>
+                  <td>2012-12-02</td>
+                  <td>Brielle Williamson</td>
+                  <td>Integration Specialist</td>
+                </tr>
+                <tr>
+                  <td>2012-08-06</td>
+                  <td>Herrod Chandler</td>
+                  <td>Sales Assistant</td>
+                </tr>
+                <tr>
+                  <td>2010-10-14</td>
+                  <td>Rhona Davidson</td>
+                  <td>Integration Specialist</td>
+                </tr>
+                <tr>
+                  <td>2009-09-15</td>
+                  <td>Colleen Hurst</td>
+                  <td>Javascript Developer</td>
+                </tr>
+                <tr>
+                  <td>2008-12-13</td>
+                  <td>Sonya Frost</td>
+                  <td>Software Engineer</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="class-report-tables table4 px-3 py-2">
+            <h4 class="text-center my-2">old curriculum</h4>
+            <table id="example4" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Class Date</th>
+                  <th>Concept Covered</th>
+                  <th>Topics Covered</th>
+                  <th>No. of Questions Practiced</th>
+                  <th>Incorrect Question Trail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                  <td>30</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Ashton Cox</td>
+                  <td>Junior Technical Author</td>
+                  <td>25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Cedric Kelly</td>
+                  <td>Senior Javascript Developer</td>
+                  <td>15</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Airi Satou</td>
+                  <td>Accountant</td>
+                  <td>17</td>
+                  <td>4</td>
+                </tr>
+                <tr>
+                  <td>2012-12-02</td>
+                  <td>Brielle Williamson</td>
+                  <td>Integration Specialist</td>
+                  <td>19</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-08-06</td>
+                  <td>Herrod Chandler</td>
+                  <td>Sales Assistant</td>
+                  <td>26</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>2010-10-14</td>
+                  <td>Rhona Davidson</td>
+                  <td>Integration Specialist</td>
+                  <td>20</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2009-09-15</td>
+                  <td>Colleen Hurst</td>
+                  <td>Javascript Developer</td>
+                  <td>15</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>2008-12-13</td>
+                  <td>Sonya Frost</td>
+                  <td>Software Engineer</td>
+                  <td>10</td>
+                  <td>2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade my-3"
+          id="nav-homework"
+          role="tabpanel"
+          aria-labelledby="nav-homework-tab"
+        >
+          <div class="col-10 mx-auto my-3">
+            <h3 class="text-center">Homework Details</h3>
+            <div class="d-flex">
+              <p class="font-weight-bold mr-2">Student Name :</p>
+              <p class="name"></p>
+            </div>
+            <div class="d-flex">
+              <p class="font-weight-bold mr-2">Teacher Name :</p>
+              <p class="teacher-name"></p>
+            </div>
+          </div>
+          <div class="class-report-tables table1 px-3 py-2">
+            <h4 class="text-center my-2">
+              only math + coding with new curriculum
+            </h4>
+            <table id="example5" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Class Date</th>
+                  <th>Homework Assigned (Y/ N)</th>
+                  <th>Topic Name</th>
+                  <th>No. of Questions Practiced</th>
+                  <th>Homework Completed (Y/N</th>
+                  <th>Homework submission date</th>
+                  <th>Incorrect question Trail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-12-02</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2012-08-06</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2010-10-14</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2009-09-15</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2008-12-13</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade my-3"
+          id="nav-meetings"
+          role="tabpanel"
+          aria-labelledby="nav-meetings-tab"
+        >
+          <div class="col-10 mx-auto my-3">
+            <h3 class="text-center">Meetings</h3>
+          </div>
+          <div class="class-report-tables table1 px-3 py-2">
+            <table id="example6" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Meeting DateTime</th>
+                  <th>PTM/PO/ SLC</th>
+                  <th>Meeting Link</th>
+                  <th>Recording</th>
+                  <th>Recording</th>
+                  <th>Key Points</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>
+                    <button type="button" class="btn">Add</button>
+                    <button type="button" class="btn">Edit</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>
+                    <button type="button" class="btn">Add</button>
+                    <button type="button" class="btn">Edit</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>
+                    <button type="button" class="btn">Add</button>
+                    <button type="button" class="btn">Edit</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>
+                    <button type="button" class="btn">Add</button>
+                    <button type="button" class="btn">Edit</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                  <td>
+                    <button type="button" class="btn">Add</button>
+                    <button type="button" class="btn">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-tests"
+          role="tabpanel"
+          aria-labelledby="nav-tests-tab"
+        >
+          <div class="col-10 mx-auto my-3">
+            <h3 class="text-center">Tests</h3>
+          </div>
+          <div class="class-report-tables table1 px-3 py-2">
+            <table id="example7" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Test Date</th>
+                  <th>Type</th>
+                  <th>Type</th>
+                  <th>Score</th>
+                  <th>Time taken (mins)</th>
+                  <th>Incorrect question Trail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2011-04-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                </tr>
+                <tr>
+                  <td>2011-07-25</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                </tr>
+                <tr>
+                  <td>2009-01-12</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                </tr>
+                <tr>
+                  <td>2012-03-29</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                </tr>
+                <tr>
+                  <td>2008-11-28</td>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>20</td>
+                  <td>Y</td>
+                  <td>2011-04-25</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-subscriptions"
+          role="tabpanel"
+          aria-labelledby="nav-subscriptions-tab"
+        >
+          nav-subscriptions-tab
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-teachers"
+          role="tabpanel"
+          aria-labelledby="nav-teachers-tab"
+        >
+          nav-teachers-tab
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-escalations"
+          role="tabpanel"
+          aria-labelledby="nav-escalation-tab"
+        >
+          nav-escalation-tab
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-report"
+          role="tabpanel"
+          aria-labelledby="nav-download-report-tab"
+        >
+          <div class="col-11 col-lg-10 my-2 mx-auto px-0">
+            <h3 class="text-center my-2">Download Report</h3>
+
+            <label for="reportmonth" class="font-weight-bold"
+              >Select month for report :
+            </label>
+            <input type="month" id="reportmonth" name="reportmonth" />
+
+            <button class="btn btn-info" id="search-report">
+              Search Report
+            </button>
+          </div>
+          <div class="printableArea">
+            <div class="col-11 col-lg-10 m-auto px-0 d-none report-div">
+              <h3 class="text-center my-2">Student Details</h3>
+              <div class="d-flex flex-wrap my-2 mx-3">
+                <div class="d-flex col-6">
+                  <p class="font-weight-bold mr-2">Student Name :</p>
+                  <p class="">Lisha Kahane</p>
+                </div>
+                <div class="d-flex col-6">
+                  <p class="font-weight-bold mr-2">Current Grade :</p>
+                  <p class="">3<sup>rd</sup></p>
+                </div>
+                <div class="d-flex col-6">
+                  <p class="font-weight-bold mr-2">Curriculum :</p>
+                  <p class="">CBSE</p>
+                </div>
+                <div class="d-flex col-6">
+                  <p class="font-weight-bold mr-2">Parent Name :</p>
+                  <p class="">Leo Kahane</p>
+                </div>
+                <div class="d-flex col-6">
+                  <p class="font-weight-bold mr-2">Parent Email :</p>
+                  <p class="">begalileo3@ucla.edu</p>
+                </div>
+                <div class="d-flex col-6">
+                  <p class="font-weight-bold mr-2">Teacher Name :</p>
+                  <p class="">Jock Baldery</p>
+                </div>
+              </div>
+              <hr style="border-top: 3px double #8c8b8b" />
+              <div class="report-details">
+                <h4 id="detail-report-head" class="text-center"></h4>
+                <div
+                  class="class-report-tables table1 px-2 py-2 mx-2 bg-transparent"
+                >
+                  <table id="example7" class="display" style="width: 100%">
+                    <thead>
+                      <tr>
+                        <th>Test Date</th>
+                        <th>Type</th>
+                        <th>Type</th>
+                        <th>Score</th>
+                        <th>Time taken (mins)</th>
+                        <th>Incorrect question Trail</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>2011-04-25</td>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>20</td>
+                        <td>Y</td>
+                        <td>2011-04-25</td>
+                      </tr>
+                      <tr>
+                        <td>2011-07-25</td>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>20</td>
+                        <td>Y</td>
+                        <td>2011-04-25</td>
+                      </tr>
+                      <tr>
+                        <td>2009-01-12</td>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>20</td>
+                        <td>Y</td>
+                        <td>2011-04-25</td>
+                      </tr>
+                      <tr>
+                        <td>2012-03-29</td>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>20</td>
+                        <td>Y</td>
+                        <td>2011-04-25</td>
+                      </tr>
+                      <tr>
+                        <td>2008-11-28</td>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>20</td>
+                        <td>Y</td>
+                        <td>2011-04-25</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="d-flex m-auto btn btn-outline-success"
+            onclick="printPageArea('printableArea')"
+          >
+            Download Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
+  <script>
+    $(document).ready(function () {
+      let table = $("#example").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+      let table2 = $("#example2").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+      let table3 = $("#example3").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+      let table4 = $("#example4").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+      let table5 = $("#example5").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+      let table6 = $("#example6").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+      let table7 = $("#example7").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+      });
+    });
+
+    $('[data-toggle="tab"]').tooltip({
+      trigger: "hover",
+      placement: "top",
+      animate: true,
+      container: "body",
+    });
+
+    let students = [
+      {
+        name: "Begalileo 1",
+        current_grade: "Grade 1",
+        curriculum: "cbse",
+        parent_name: "Jock",
+        parent_email: "Begalileo1@japanpost.jp",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Jock Baldery",
+        subscription: "Monthly",
+      },
+      {
+        name: "Begalileo 2",
+        current_grade: "Grade 2",
+        curriculum: "IB",
+        parent_name: "Isis",
+        parent_email: "begalileo2@woothemes.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Isis Scholig",
+        subscription: "Monthly",
+      },
+      {
+        name: "Begalileo 3",
+        current_grade: "Grade 2",
+        curriculum: "ICSE",
+        parent_name: "Heindrick",
+        parent_email: "begalileo3@ucla.edu",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Heindrick Jan",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo 4",
+        current_grade: "grade 4",
+        curriculum: "IB",
+        parent_name: "Leo",
+        parent_email: "begalileo4@fema.gov",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Leo McCallister",
+        subscription: "Yearly",
+      },
+      {
+        name: "Begalileo 5",
+        current_grade: "grade 5",
+        curriculum: "CBSE",
+        parent_name: "Lisha",
+        parent_email: "lkahane4@microsoft.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Lisha Kahane",
+        subscription: "Monthly",
+      },
+      {
+        name: "Begalileo 6",
+        current_grade: "Grade 6",
+        curriculum: "IB",
+        parent_name: "Jamaal",
+        parent_email: "jfarron5@issuu.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Jamaal Farron",
+        subscription: "Monthly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Rowen",
+        curriculum: "ICSE",
+        parent_name: "Herbert",
+        parent_email: "hbenthall6@naver.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Herbert Benthall",
+        subscription: "Yearly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Worden",
+        curriculum: "IB",
+        parent_name: "Aubrie",
+        parent_email: "agirdwood7@disqus.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Aubrie Girdwood",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Gene",
+        curriculum: "ICSE",
+        parent_name: "Bernadine",
+        parent_email: "bells8@tumblr.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Bernadine Ells",
+        subscription: "Yearly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Salaidh",
+        curriculum: "cbse",
+        parent_name: "Jack",
+        parent_email: "jhaygreen9@si.edu",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Jack Haygreen",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Dasya",
+        curriculum: "IB",
+        parent_name: "Kata",
+        parent_email: "kswaina@wunderground.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Kata Swain",
+        subscription: "Yearly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Joy",
+        curriculum: "ICSE",
+        parent_name: "Odo",
+        parent_email: "ospickb@guardian.co.uk",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Odo Spick",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Eachelle",
+        curriculum: "cbse",
+        parent_name: "Abel",
+        parent_email: "aschimankc@parallels.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Abel Schimank",
+        subscription: "Monthly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Toby",
+        curriculum: "IB",
+        parent_name: "Gorden",
+        parent_email: "gparkynsd@free.fr",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Gorden Parkyns",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Violet",
+        curriculum: "ICSE",
+        parent_name: "Zed",
+        parent_email: "zpurchalle@intel.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Zed Purchall",
+        subscription: "Yearly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Holden",
+        curriculum: "cbse",
+        parent_name: "Rosalia",
+        parent_email: "rmacbeyf@go.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Rosalia MacBey",
+        subscription: "Monthly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Kira",
+        curriculum: "IB",
+        parent_name: "Georgeanna",
+        parent_email: "gfilisovg@tumblr.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Georgeanna Filisov",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Jennica",
+        curriculum: "cbse",
+        parent_name: "Lenore",
+        parent_email: "lsturdyh@jimdo.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Lenore Sturdy",
+        subscription: "Yearly",
+      },
+      {
+        name: "Begalileo ",
+        current_grade: "Ade",
+        curriculum: "IB",
+        parent_name: "Hana",
+        parent_email: "hterlindeni@state.gov",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Hana Terlinden",
+        subscription: "Quarterly",
+      },
+      {
+        name: "Begalileo 20",
+        current_grade: "1st",
+        curriculum: "cbse",
+        parent_name: "Ravi",
+        parent_email: "Begalileo20@theatlantic.com",
+        product_subscribed: "Coding/Math/Math + Coding",
+        teacher_name: "Ravi Wayte",
+        subscription: "Yearly",
+      },
+    ];
+
+    let sName = document.getElementById("studentsName");
+    let pEmail = document.getElementById("parentEmail");
+
+    students.forEach((element) => {
+      let nameOption = document.createElement("option");
+      nameOption.value = element.name;
+      nameOption.innerText = element.name;
+
+      let emailOption = document.createElement("option");
+      emailOption.value = element.parent_email;
+      emailOption.innerText = element.parent_email;
+
+      sName.append(nameOption);
+      pEmail.append(emailOption);
+    });
+
+    let searchBtn = document.getElementById("search-btn");
+
+    // bigCities = data.filter(function (e) {
+    //         return e.department.toLowerCase() == department.toLowerCase();
+    //       });
+    let student;
+
+    searchBtn.addEventListener("click", function () {
+      searchBtn.innerText = "Loading";
+      if (sName.value != "none") {
+        console.log(sName.value);
+        student = students.filter((elem) => {
+          return (
+            elem.name.toLocaleLowerCase() == sName.value.toLocaleLowerCase()
+          );
+        });
+      } else if (pEmail.value != "none") {
+        console.log(pEmail.value);
+        student = students.filter((elem) => {
+          return (
+            elem.parent_email.toLocaleLowerCase() ==
+            pEmail.value.toLocaleLowerCase()
+          );
+        });
+      } else {
+        alert("Choose atlease one option");
+        return false;
+      }
+
+      console.log(student);
+
+      setTimeout(() => {
+        searchBtn.innerText = "Search";
+
+        let name = document.getElementsByClassName("name");
+        for (let i = 0; i < name.length; i++) {
+          name[i].innerText = student[0].name;
+        }
+
+        document.querySelector(".grade").innerText = student[0].current_grade;
+        document.querySelector(".curriculam").innerText = student[0].curriculum;
+        document.querySelector(".parent-name").innerText =
+          student[0].parent_name;
+        document.querySelector(".parent-email").innerText =
+          student[0].parent_email;
+        document.querySelector(".product-subscribed").innerText =
+          student[0].product_subscribed;
+
+        let teacher = document.getElementsByClassName("teacher-name");
+        for (let i = 0; i < teacher.length; i++) {
+          teacher[i].innerText = student[0].teacher_name;
+        }
+
+        document.querySelector(".subscription").innerText =
+          student[0].subscription;
+        document.getElementById("report").classList.remove("d-none");
+        document.getElementById("report").classList.add("d-flex");
+      }, 2000);
+    });
+
+    window.onscroll = function () {
+      myFunction();
+    };
+
+    // Get the navbar
+    var navbar = document.getElementById("navbar");
+
+    // Get the offset position of the navbar
+    var sticky = navbar.offsetTop;
+
+    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function myFunction() {
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky");
+        // navbar.style.backgroundColor = "#bfd96e";
+      } else {
+        navbar.classList.remove("sticky");
+        // navbar.style.backgroundColor = "#fff";
+      }
+    }
+
+    function printPageArea(areaID) {
+      var printContent = document.querySelector(`.${areaID}`).innerHTML;
+      console.log(printContent);
+      var originalContent = document.body.innerHTML;
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+    }
+
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    let monthBtn = document.getElementById("search-report");
+    monthBtn.addEventListener("click", function () {
+      let dt = new Date(document.getElementById("reportmonth").value);
+
+      document.getElementById("detail-report-head").innerText = `Report for ${
+        month[dt.getMonth() + 1]
+      } ${dt.getFullYear()}`;
+      document.querySelector(".report-div").classList.remove("d-none");
+    });
+  </script>
+</html>
